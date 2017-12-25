@@ -3,4 +3,6 @@
 instance_status_apt_required: []
 instance_status_checks: {}
 
+instance_status_version: v0.5.2
+
 ...
