@@ -12,7 +12,8 @@
   register: instance_status_config
 
 - name: Get current elb-instance-status version
-  command: /usr/local/bin/elb-instance-status --version
+  shell: "/usr/local/bin/elb-instance-status --version || true"
+  check_mode: no
   register: instance_status_version_cmd
 
 - name: Download elb-instance-status release
@@ -20,7 +21,7 @@
     url: 'https://github.com/Luzifer/elb-instance-status/releases/download/{{ instance_status_version }}/elb-instance-status_linux_amd64'
     dest: /usr/local/bin/elb-instance-status
     mode: 0755
-  when: instance_status_version not in instance_status_version_cmd.output
+  when: instance_status_version not in instance_status_version_cmd.stdout
   register: instance_status_binary
 
 - name: Install system.d service
