@@ -20,6 +20,7 @@
   get_url:
     url: 'https://github.com/Luzifer/elb-instance-status/releases/download/{{ instance_status_version }}/elb-instance-status_linux_amd64'
     dest: /usr/local/bin/elb-instance-status
+    force: yes
     mode: 0755
   when: instance_status_version not in instance_status_version_cmd.stdout
   register: instance_status_binary
