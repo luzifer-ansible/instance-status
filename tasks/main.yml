@@ -1,0 +1,56 @@
+---
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+  with_items: '{{ instance_status_apt_required }}'
+
+- name: Set up checks file for ELB Instance Status
+  template:
+    src: templates/checks.yml
+    dest: /etc/elb-instance-status.yml
+  register: instance_status_config
+
+- name: Download elb-instance-status release
+  get_url:
+    url: https://github.com/Jimdo/elb-instance-status/releases/download/v0.5.1/elb-instance-status_linux_amd64
+    dest: /usr/local/bin/elb-instance-status_v0.5.1
+    sha256sum: 3ce2fa44296e2ff5b2cca2e9b2348bbd49884eadfe66389ec6d201f5e71650c0
+    mode: 0755
+
+- name: Link elb-instance-status
+  file:
+    dest: /usr/local/bin/elb-instance-status
+    src: /usr/local/bin/elb-instance-status_v0.5.1
+    state: link
+  register: instance_status_link
+
+- name: Install system.d service
+  copy:
+    content: |
+      [Unit]
+      Description=Machine health checking service
+      After=network-online.target
+      Requires=network-online.target
+
+      [Service]
+      TimeoutStartSec=0
+      TimeoutStopSec=0
+      Restart=on-failure
+      RestartSec=30
+      SyslogIdentifier=elb-instance-status
+      ExecStart=/usr/local/bin/elb-instance-status \
+                  --listen=:9001
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/elb-instance-status.service
+  register: instance_status_service
+
+- name: Ensure elb-instance-status is restarted on changes
+  systemd:
+    daemon_reload: yes
+    name: elb-instance-status
+    state: restarted
+    enabled: yes
+  when: instance_status_config.changed or instance_status_service.changed or instance_status_service.changed

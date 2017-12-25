@@ -1,0 +1,5 @@
+---
+
+{{ instance_status_checks | to_nice_yaml }}
+
+...
