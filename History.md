@@ -1,3 +1,7 @@
+# 0.2.2 / 2017-12-25
+
+  * Fix: Force replacement on version mismatch
+
 # 0.2.1 / 2017-12-25
 
   * Fix: Condition broken
