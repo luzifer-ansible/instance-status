@@ -1,3 +1,7 @@
+# 0.3.1 / 2018-04-26
+
+  * Fix: Don't change default config location
+
 # 0.3.0 / 2018-04-26
 
   * Fix LICENSE
