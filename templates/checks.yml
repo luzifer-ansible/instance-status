@@ -1,5 +1,10 @@
 ---
+# {{ ansible_managed }}
 
+# Global checks
+{{ instance_status_global_checks | to_nice_yaml }}
+
+# Instance checks
 {{ instance_status_checks | to_nice_yaml }}
 
 ...

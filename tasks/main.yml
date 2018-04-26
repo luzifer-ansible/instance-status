@@ -8,8 +8,9 @@
 - name: Set up checks file for ELB Instance Status
   template:
     src: templates/checks.yml
-    dest: /etc/elb-instance-status.yml
+    dest: '{{ instance_status_checks_file }}'
   register: instance_status_config
+  when: "'http://' not in instance_status_checks_file and 'https://' not in instance_status_checks_file"
 
 - name: Get current elb-instance-status version
   shell: "/usr/local/bin/elb-instance-status --version || true"
@@ -37,20 +38,29 @@
       TimeoutStartSec=0
       TimeoutStopSec=0
       Restart=on-failure
-      RestartSec=30
+      RestartSec=10
       SyslogIdentifier=elb-instance-status
       ExecStart=/usr/local/bin/elb-instance-status \
-                  --listen=:9001
+                  --check-definitions-file={{ instance_status_checks_file }} \
+                  --check-interval={{ instance_status_check_interval }} \
+                  --config-refresh={{ instance_status_config_refresh }} \
+                  --listen=:{{ instance_status_port }} \
+                  --unhealthy-threshold={{ instance_status_unhealthy_threshold }} \
+                  --verbose={{ instance_status_verbose | to_json }}
 
       [Install]
       WantedBy=multi-user.target
     dest: /etc/systemd/system/elb-instance-status.service
   register: instance_status_service
 
+- name: Ensure elb-instance-status is enabled
+  systemd:
+    name: elb-instance-status
+    daemon_reload: true
+    enabled: true
+
 - name: Ensure elb-instance-status is restarted on changes
   systemd:
-    daemon_reload: yes
     name: elb-instance-status
     state: restarted
-    enabled: yes
-  when: instance_status_config.changed or instance_status_binary.changed or instance_status_service.changed
+  when: (instance_status_config.changed or instance_status_binary.changed or instance_status_service.changed) and packer_build_name is not defined

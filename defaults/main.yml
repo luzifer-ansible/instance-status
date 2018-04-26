@@ -1,8 +1,16 @@
 ---
 
 instance_status_apt_required: []
+
+instance_status_global_checks: {}
 instance_status_checks: {}
 
+instance_status_check_interval: 1m
+instance_status_checks_file: /etc/host-status.yml
+instance_status_config_refresh: 10m
+instance_status_port: 9000
+instance_status_unhealthy_threshold: 5
+instance_status_verbose: false
 instance_status_version: v0.5.2
 
 ...
