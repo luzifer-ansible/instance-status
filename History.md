@@ -1,3 +1,8 @@
+# 0.3.0 / 2018-04-26
+
+  * Fix LICENSE
+  * Add more configuration variables
+
 # 0.2.2 / 2017-12-25
 
   * Fix: Force replacement on version mismatch
