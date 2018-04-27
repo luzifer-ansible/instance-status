@@ -11,6 +11,6 @@ instance_status_config_refresh: 10m
 instance_status_port: 9000
 instance_status_unhealthy_threshold: 5
 instance_status_verbose: false
-instance_status_version: v0.5.2
+instance_status_version: v0.6.1
 
 ...

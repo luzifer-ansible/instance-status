@@ -13,16 +13,15 @@
   when: "'http://' not in instance_status_checks_file and 'https://' not in instance_status_checks_file"
 
 - name: Get current elb-instance-status version
-  shell: "/usr/local/bin/elb-instance-status --version || true"
+  shell: "/usr/local/bin/elb-instance-status_linux_amd64 --version || true"
   check_mode: no
   register: instance_status_version_cmd
 
 - name: Download elb-instance-status release
-  get_url:
-    url: 'https://github.com/Luzifer/elb-instance-status/releases/download/{{ instance_status_version }}/elb-instance-status_linux_amd64'
-    dest: /usr/local/bin/elb-instance-status
-    force: yes
-    mode: 0755
+  unarchive:
+    src: 'https://github.com/Luzifer/elb-instance-status/releases/download/{{ instance_status_version }}/elb-instance-status_linux_amd64.tar.gz'
+    remote_src: true
+    dest: /usr/local/bin
   when: instance_status_version not in instance_status_version_cmd.stdout
   register: instance_status_binary
 
@@ -40,7 +39,7 @@
       Restart=on-failure
       RestartSec=10
       SyslogIdentifier=elb-instance-status
-      ExecStart=/usr/local/bin/elb-instance-status \
+      ExecStart=/usr/local/bin/elb-instance-status_linux_amd64 \
                   --check-definitions-file={{ instance_status_checks_file }} \
                   --check-interval={{ instance_status_check_interval }} \
                   --config-refresh={{ instance_status_config_refresh }} \
