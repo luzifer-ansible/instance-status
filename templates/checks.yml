@@ -1,10 +1,14 @@
 ---
 # {{ ansible_managed }}
 
+{% if instance_status_global_checks | length > 0 %}
 # Global checks
 {{ instance_status_global_checks | to_nice_yaml }}
+{% endif %}
 
+{% if instance_status_checks | length > 0 %}
 # Instance checks
 {{ instance_status_checks | to_nice_yaml }}
+{% endif %}
 
 ...
