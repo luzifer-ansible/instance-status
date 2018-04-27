@@ -1,3 +1,8 @@
+# 0.4.0 / 2018-04-27
+
+  * Fix: Don't write empty checks
+  * Update version, adjust tasks for new version
+
 # 0.3.1 / 2018-04-26
 
   * Fix: Don't change default config location
