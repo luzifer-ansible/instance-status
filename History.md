@@ -1,3 +1,7 @@
+# 0.5.0 / 2020-01-03
+
+  * Add support for Archlinux
+
 # 0.4.0 / 2018-04-27
 
   * Fix: Don't write empty checks
