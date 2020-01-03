@@ -4,6 +4,7 @@ This role installs [ELB Instance Status](https://github.com/Luzifer/elb-instance
 
 ## Requirements
 
+- Archlinux
 - Debian >= 8 (jessie)
 - Ubuntu >= 16.04 (xenial)
 

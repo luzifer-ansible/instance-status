@@ -1,9 +1,7 @@
 ---
 
-- name: Install required packages
-  apt:
-    name: "{{ item }}"
-  with_items: '{{ instance_status_apt_required }}'
+- name: "Loading distribution specific instructions for {{ ansible_distribution }}"
+  include: "{{ ansible_distribution }}.yml"
 
 - name: Set up checks file for ELB Instance Status
   template:

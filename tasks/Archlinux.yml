@@ -1,0 +1,9 @@
+---
+
+- name: Install required packages
+  pacman:
+    name: "{{ item }}"
+    state: latest
+  with_items: '{{ instance_status_pacman_required }}'
+
+...

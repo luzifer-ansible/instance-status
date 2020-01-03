@@ -1,6 +1,7 @@
 ---
 
 instance_status_apt_required: []
+instance_status_pacman_required: []
 
 instance_status_global_checks: {}
 instance_status_checks: {}
