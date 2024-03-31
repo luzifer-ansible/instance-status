@@ -1,3 +1,7 @@
+# 0.6.0 / 2024-03-31
+
+  * Update role to match new packaging format
+
 # 0.5.1 / 2024-03-12
 
   * Fix: Replace deprecated `include` builtin
