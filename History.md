@@ -1,3 +1,7 @@
+# 0.6.1 / 2026-10-16
+
+  * chore: replace deprecated use of facts injected as variables
+
 # 0.6.0 / 2024-03-31
 
   * Update role to match new packaging format
